@@ -1,0 +1,55 @@
+# Bandit Security Scanner Configuration
+# https://bandit.readthedocs.io/
+
+[bandit]
+# Exclude directories from scanning
+exclude_dirs = [
+    '/venv/',
+    '/.venv/',
+    '/tests/',
+    '/alembic/versions/',
+    '/__pycache__/',
+    '/.git/'
+]
+
+# Tests to skip (comma-separated list of test IDs)
+# B101: assert_used - Allow asserts in tests
+# B601: paramiko_calls - Not using paramiko
+# B602: subprocess_popen_with_shell_equals_true - Reviewed usage
+skips = B101,B601,B602
+
+# Set confidence level threshold
+# LOW, MEDIUM, HIGH
+confidence = MEDIUM
+
+# Set severity level threshold
+# LOW, MEDIUM, HIGH
+level = LOW
+
+# Output formats: screen, txt, csv, json, yaml, html, custom
+# format = screen
+
+[bandit.plugins]
+# Plugin-specific settings can be added here
+
+[bandit.assert_used]
+# Allow asserts in test files (already excluded by exclude_dirs)
+skips = ['*/tests/*']
+
+[bandit.hardcoded_password]
+# More aggressive password detection
+# Catches: password = "secret", pwd = "test123", etc.
+
+[bandit.hardcoded_sql_expressions]
+# Detect potential SQL injection risks
+# Will flag string concatenation in SQL queries
+
+[bandit.try_except_pass]
+# Flag bare except: pass blocks (silent error swallowing)
+
+[bandit.shell_injection]
+# Flag potential shell injection via subprocess/os.system
+
+# Exclude specific lines or files with inline comments:
+# Example in code:
+#   password = "test123"  # nosec B105 - Test password, not production
