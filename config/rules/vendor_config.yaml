@@ -1,0 +1,92 @@
+# Vendor-specific configuration
+# Retry policies and circuit breaker thresholds per vendor
+
+stripe:
+  circuit_breaker:
+    failure_threshold: 10
+    timeout_seconds: 300
+    half_open_requests: 3
+  retry_policy:
+    max_retries: 3
+    initial_delay_ms: 1000
+    max_delay_ms: 30000
+    backoff_multiplier: 2.0
+  timeout_seconds: 30
+  rate_limits:
+    requests_per_second: 100
+    burst_size: 10
+
+plaid:
+  circuit_breaker:
+    failure_threshold: 15
+    timeout_seconds: 600
+    half_open_requests: 5
+  retry_policy:
+    max_retries: 4
+    initial_delay_ms: 2000
+    max_delay_ms: 60000
+    backoff_multiplier: 2.0
+  timeout_seconds: 45
+  rate_limits:
+    requests_per_second: 50
+    burst_size: 5
+
+twilio:
+  circuit_breaker:
+    failure_threshold: 8
+    timeout_seconds: 300
+    half_open_requests: 2
+  retry_policy:
+    max_retries: 3
+    initial_delay_ms: 500
+    max_delay_ms: 15000
+    backoff_multiplier: 2.0
+  timeout_seconds: 20
+  rate_limits:
+    requests_per_second: 30
+    burst_size: 3
+
+sendgrid:
+  circuit_breaker:
+    failure_threshold: 10
+    timeout_seconds: 300
+    half_open_requests: 3
+  retry_policy:
+    max_retries: 3
+    initial_delay_ms: 1000
+    max_delay_ms: 30000
+    backoff_multiplier: 2.0
+  timeout_seconds: 25
+  rate_limits:
+    requests_per_second: 60
+    burst_size: 6
+
+aws_s3:
+  circuit_breaker:
+    failure_threshold: 20
+    timeout_seconds: 600
+    half_open_requests: 5
+  retry_policy:
+    max_retries: 5
+    initial_delay_ms: 1000
+    max_delay_ms: 32000
+    backoff_multiplier: 2.0
+  timeout_seconds: 60
+  rate_limits:
+    requests_per_second: 200
+    burst_size: 20
+
+default:
+  circuit_breaker:
+    failure_threshold: 10
+    timeout_seconds: 300
+    half_open_requests: 3
+  retry_policy:
+    max_retries: 3
+    initial_delay_ms: 1000
+    max_delay_ms: 30000
+    backoff_multiplier: 2.0
+  timeout_seconds: 30
+  rate_limits:
+    requests_per_second: 50
+    burst_size: 5

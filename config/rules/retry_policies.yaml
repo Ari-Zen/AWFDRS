@@ -1,0 +1,66 @@
+# Default retry policies by error category
+
+transient_error:
+  enabled: true
+  max_retries: 3
+  backoff_strategy: exponential
+  initial_delay_ms: 1000
+  max_delay_ms: 30000
+  backoff_multiplier: 2.0
+  jitter: true
+  jitter_factor: 0.1
+
+rate_limit:
+  enabled: true
+  max_retries: 5
+  backoff_strategy: exponential
+  initial_delay_ms: 2000
+  max_delay_ms: 60000
+  backoff_multiplier: 2.5
+  jitter: true
+  jitter_factor: 0.2
+  respect_retry_after: true
+
+vendor_error:
+  enabled: true
+  max_retries: 2
+  backoff_strategy: exponential
+  initial_delay_ms: 1500
+  max_delay_ms: 20000
+  backoff_multiplier: 2.0
+  jitter: false
+
+infrastructure_error:
+  enabled: true
+  max_retries: 4
+  backoff_strategy: exponential
+  initial_delay_ms: 2000
+  max_delay_ms: 60000
+  backoff_multiplier: 2.0
+  jitter: true
+  jitter_factor: 0.15
+
+user_error:
+  enabled: false
+  max_retries: 0
+  # User errors should not be retried
+
+validation_error:
+  enabled: false
+  max_retries: 0
+  # Validation errors should not be retried
+
+auth_error:
+  enabled: false
+  max_retries: 0
+  # Auth errors should not be retried
+
+default:
+  enabled: true
+  max_retries: 3
+  backoff_strategy: exponential
+  initial_delay_ms: 1000
+  max_delay_ms: 30000
+  backoff_multiplier: 2.0
+  jitter: true
+  jitter_factor: 0.1

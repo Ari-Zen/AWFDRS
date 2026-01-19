@@ -1,0 +1,105 @@
+# Known error code definitions
+# Maps error codes to severity, retry policy, and categorization
+
+payment_errors:
+  insufficient_funds:
+    severity: medium
+    retry: false
+    category: user_error
+    description: Customer has insufficient funds
+
+  card_declined:
+    severity: medium
+    retry: false
+    category: user_error
+    description: Card was declined by issuer
+
+  expired_card:
+    severity: low
+    retry: false
+    category: user_error
+    description: Card has expired
+
+  payment_gateway_timeout:
+    severity: high
+    retry: true
+    max_retries: 3
+    category: transient_error
+    description: Payment gateway timed out
+
+  payment_gateway_error:
+    severity: high
+    retry: true
+    max_retries: 2
+    category: vendor_error
+    description: Payment gateway returned error
+
+api_errors:
+  timeout:
+    severity: high
+    retry: true
+    max_retries: 3
+    backoff: exponential
+    category: transient_error
+    description: API request timed out
+
+  rate_limit_exceeded:
+    severity: medium
+    retry: true
+    max_retries: 5
+    backoff: exponential
+    category: rate_limit
+    description: API rate limit exceeded
+
+  internal_server_error:
+    severity: high
+    retry: true
+    max_retries: 2
+    category: vendor_error
+    description: Vendor internal server error
+
+  service_unavailable:
+    severity: critical
+    retry: true
+    max_retries: 3
+    category: vendor_error
+    description: Service temporarily unavailable
+
+  bad_request:
+    severity: medium
+    retry: false
+    category: validation_error
+    description: Invalid request parameters
+
+  unauthorized:
+    severity: high
+    retry: false
+    category: auth_error
+    description: Authentication failed
+
+  forbidden:
+    severity: high
+    retry: false
+    category: auth_error
+    description: Authorization failed
+
+database_errors:
+  connection_timeout:
+    severity: critical
+    retry: true
+    max_retries: 3
+    category: infrastructure_error
+    description: Database connection timeout
+
+  deadlock:
+    severity: high
+    retry: true
+    max_retries: 2
+    category: transient_error
+    description: Database deadlock detected
+
+  constraint_violation:
+    severity: medium
+    retry: false
+    category: validation_error
+    description: Database constraint violation
