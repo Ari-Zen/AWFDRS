@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: awfdrs-postgres
+    environment:
+      POSTGRES_USER: awfdrs
+      POSTGRES_PASSWORD: awfdrs
+      POSTGRES_DB: awfdrs
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U awfdrs"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - awfdrs-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: awfdrs-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - awfdrs-network
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: awfdrs-app
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+asyncpg://awfdrs:awfdrs@postgres:5432/awfdrs
+      REDIS_URL: redis://redis:6379/0
+      LOG_LEVEL: INFO
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./src:/app/src
+      - ./tests:/app/tests
+    networks:
+      - awfdrs-network
+    command: uvicorn src.awfdrs.main:app --host 0.0.0.0 --port 8000 --reload
+
+volumes:
+  postgres_data:
+
+networks:
+  awfdrs-network:
+    driver: bridge
