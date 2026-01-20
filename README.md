@@ -156,6 +156,27 @@ uvicorn src.awfdrs.main:app --reload --host 0.0.0.0 --port 8000
 - Swagger Docs: http://localhost:8000/docs
 - ReDoc: http://localhost:8000/redoc
 
+### Run Frontend (Optional)
+
+The system includes a production-ready React frontend for incident management and monitoring.
+
+```bash
+# In a new terminal
+cd frontend
+
+# Install dependencies (first time only)
+npm install
+
+# Start development server
+npm run dev
+```
+
+**Frontend available at:**
+- UI: http://localhost:5173
+
+**Quick Integration Test:**
+See [QUICKSTART.md](QUICKSTART.md) for a 3-minute guide to test the full-stack integration.
+
 ---
 
 ## Architecture
@@ -226,10 +247,23 @@ AWFDRS/
 │   ├── MIGRATION.md         # Project structure decisions
 │   ├── METRICS.md           # Observability & SLAs
 │   └── CONVENTIONS.md       # Coding standards
+├── frontend/                # React frontend application
+│   ├── src/
+│   │   ├── app/
+│   │   │   ├── api/         # API client, services, adapters
+│   │   │   ├── components/  # React components (pages, layout, UI)
+│   │   │   ├── types/       # TypeScript type definitions
+│   │   │   └── data/        # Mock data (for development)
+│   │   └── main.tsx         # Frontend entry point
+│   ├── package.json         # NPM dependencies
+│   ├── vite.config.ts       # Vite configuration
+│   └── INTEGRATION_GUIDE.md # Frontend-backend integration docs
 ├── docker-compose.yml       # Docker services (PostgreSQL, Redis)
 ├── pyproject.toml           # Project configuration
 ├── requirements.txt         # Runtime dependencies
-└── requirements-dev.txt     # Development dependencies
+├── requirements-dev.txt     # Development dependencies
+├── QUICKSTART.md            # 3-minute quick start guide
+└── FRONTEND_BACKEND_INTEGRATION.md  # Integration summary
 ```
 
 ---
@@ -577,6 +611,14 @@ Closes #123
 - [METRICS.md](docs/METRICS.md) - Observability, metrics, and SLA definitions
 - [CONVENTIONS.md](docs/CONVENTIONS.md) - Coding standards and best practices
 
+### Frontend & Integration Documentation
+
+- [QUICKSTART.md](QUICKSTART.md) - 3-minute quick start guide
+- [FRONTEND_BACKEND_INTEGRATION.md](FRONTEND_BACKEND_INTEGRATION.md) - Integration summary and troubleshooting
+- [frontend/INTEGRATION_GUIDE.md](frontend/INTEGRATION_GUIDE.md) - Comprehensive frontend-backend integration reference
+- [frontend/README.md](frontend/README.md) - Frontend application overview
+- [frontend/IMPLEMENTATION_SUMMARY.md](frontend/IMPLEMENTATION_SUMMARY.md) - UI/UX implementation details
+
 ### Module Documentation
 
 - [core/](src/awfdrs/core/README.md) - Shared utilities and cross-cutting concerns
@@ -608,6 +650,15 @@ Closes #123
 - **Ruff** - Fast Python linter
 - **mypy** - Static type checking
 - **Bandit** - Security vulnerability scanner
+
+### Frontend Stack
+- **React 18.3.1** - UI library with hooks
+- **TypeScript** - Type-safe JavaScript
+- **Vite 6.3.5** - Fast build tool and dev server
+- **Tailwind CSS 4.1.12** - Utility-first CSS framework
+- **Radix UI** - Accessible component primitives
+- **Shadcn/ui** - Pre-built component library
+- **Recharts** - Charting library for analytics
 
 ---
 
